@@ -1,0 +1,29 @@
+body
+{
+
+	border-style: double;
+	border-color: black;
+	border-radius: 200px;
+	border-width: 50px;
+
+}
+
+.Center_Of_Page
+{
+	
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	
+}
+
+input#Link
+{
+	
+	background: none;
+	border: none;
+	text-decoration: underline;
+	font-size: 20px;
+
+}
