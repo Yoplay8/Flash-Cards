@@ -25,7 +25,16 @@
 		input#Options
 		{
 			
-			margin: 15px 10px 10px 70px;
+			margin: 15px -5px 10px 10px;
+			
+		}
+		
+		#Button_Style
+		{
+
+			cursor: pointer;
+			text-align: center;
+			background-color: red;
 			
 		}
 	
@@ -52,12 +61,16 @@
 			
 
 			Parent.childNodes[Num_Of_Children - 4].remove();
-			
+			Num_Of_Children = Parent.childNodes.length;
+			Parent.childNodes[Num_Of_Children - 4].remove();
+			Num_Of_Children = Parent.childNodes.length;
+			Parent.childNodes[Num_Of_Children - 4].remove();
+			Num_Of_Children = Parent.childNodes.length;
 			
 			// Determine when to remove or redisplay the add/ remove buttons.
-			if(Num_Of_Children == 6)
+			if(Num_Of_Children == 7)
 			   Buttons[1].remove();
-		    else if(Num_Of_Children == 14)
+		    else if(Num_Of_Children == 31)
 			   Buttons[0].setAttribute("style", "visibility: visible");
 
 		}
@@ -80,20 +93,51 @@
 		   // Once the remove button is created we need to subtract one to keep the custom
 		   // messages consistent and to make sure the new lines are inserted in the correct
 		   // spot.
-		    if(Num_Of_Children > 5)
-				Num_Of_Children--;
+		    
 		   
 			
 			// Holds the letter for the custom placeholder.
-			var Letter = (Num_Of_Children - 3);
-
+			var Letter = (((Num_Of_Children / 3) - 2) + 1);
+			
+			
 			
 			// Limit the multiple choice to 9 options.
-			if(Letter <= 9)
+			if(Letter <= 10)
 			{
-
+				
+				
+				
+				var New_Line = document.createElement("br");
+				
+				if(Num_Of_Children >= 10)
+					Num_Of_Children--;
+				
+				Parent.insertBefore(New_Line, Parent.childNodes[(Num_Of_Children - 2)]);
+				
+				
+				
+				Num_Of_Children = Parent.childNodes.length;
+				
+				var New_Line = document.createElement("input");
+				
+				New_Line.setAttribute("size", "4");
+				New_Line.setAttribute("onclick", "Change(this)");
+				New_Line.setAttribute("name", "MC[]");
+				New_Line.setAttribute("value", "Incorrect");
+				New_Line.setAttribute("id", "Button_Style");
+				New_Line.setAttribute("unselectable", "on");
+				New_Line.setAttribute("onselectstart", "return false;");
+				New_Line.setAttribute("onmousedown", "return false;");
+				
+				if(Num_Of_Children >= 10)
+					Num_Of_Children--;
+				
+				Parent.insertBefore(New_Line, Parent.childNodes[(Num_Of_Children - 2)]);
+				
+				Num_Of_Children = Parent.childNodes.length;
+				
 				// Holds the new line to be added.
-				var New_Line = document.createElement('input');
+				New_Line = document.createElement('input');
 		   
 		   
 				New_Line.setAttribute('id', 'Options');
@@ -102,16 +146,20 @@
 			    Letter = String.fromCharCode(65 + Letter);
 			   
 			    New_Line.setAttribute('placeholder', 'Enter In Option ' + Letter);
-			    New_Line.setAttribute('name', Letter);
+			    New_Line.setAttribute('name', "MC[]");
 
-
+				if(Num_Of_Children >= 10)
+					Num_Of_Children--;
+				
 			    Parent.insertBefore(New_Line, Parent.childNodes[(Num_Of_Children - 2)]);
+				
+				Num_Of_Children = Parent.childNodes.length;
 				
 		   }
 
 		   
 		   // Determine when to create the remove button or hide the add button.
-		   if(Num_Of_Children == 4)
+		   if(Num_Of_Children == 9)
 		   {
 			   
 			   // Holds the remove button.
@@ -125,7 +173,7 @@
 			   Parent.appendChild(Remove_Btn);
 			   
 		   }
-		   else if(Num_Of_Children == 12)
+		   else if(Num_Of_Children == 34)
 		   {
 			   
 			   // Holds the add button.
@@ -202,6 +250,29 @@
 			
 		}
 		
+		function Change(Ele)
+		{
+			
+			
+			if(Ele.getAttribute("value") == "Incorrect")
+			{
+				
+				Ele.setAttribute("value", "Correct");
+			
+				Ele.setAttribute("style", "background-color: green;");
+				
+			}
+			else
+			{
+				
+				Ele.setAttribute("value", "Incorrect");
+			
+				Ele.setAttribute("style", "background-color: red;");
+				
+			}
+			
+		}
+		
 	</script>
 	
 	
@@ -214,41 +285,38 @@
 			
 			// Hold the file name and path.
 			$Folder_Name = "Data";
-			$File_Name = "/Cards.txt";
 			
 			
 			// Create folder if one doesn't exsist.
 			if(!file_exists($Folder_Name))
 				mkdir($Folder_Name);
-
 			
-			// Hold file.
+			if(isset($_POST["TF"]))
+				$File_Name = "/TF.txt";
+			elseif(isset($_POST["MC"]))
+				$File_Name = "/MC.txt";
+			elseif(isset($_POST["QA"]))
+				$File_Name = "/QA.txt";
+				
+			
 			$W_File = fopen($Folder_Name . $File_Name, "a");
 			
-			// Used to help skip the save button.
-			$Count = sizeof($_POST);
+			if(filesize($Folder_Name . $File_Name) > 0)
+				fwrite($W_File, "\r\n");
 			
-			
-			// Loop through all fields.
-			foreach($_POST as $Key=>$Val)
+			foreach($_POST as $Question)
 			{
-				
-				// Add the type of question first.
-				// Note: This only needs to be ran once.
-				if($Count == sizeof($_POST))
-					fwrite($W_File, ($Key . ":::"));
-				
-				// Skip the save button.
-				if($Count != 1)
-					fwrite($W_File, ($Val . ":::"));
-				
-				$Count--;
+
+				if($Question != "Save")
+				{
+					
+					foreach($Question as $Val)
+							fwrite($W_File, ($Val . ":::"));
+					
+				}
 				
 			}
-			
-			fwrite($W_File, "\r\n");
-			
-			
+
 			fclose($W_File);
 			
 			
@@ -291,25 +359,28 @@
 						if(isset($_POST["1"]))
 						{
 
-							print("<select name='TF'>");
+							print("<select name='TF[]'>");
 								print("<option>" . "True" . "</option>");
 								print("<option>" . "False" . "</option>");
 										
 							print("</select>");
 											
-							print("<input name='B' style='margin-left: 20px;' type='text'
+							print("<input name='TF[]' style='margin-left: 20px;' type='text'
 							       size='50' placeholder='Enter In Question'>");
 
 						}
 						elseif(isset($_POST["2"]))
 						{
 
-							print("<input name='MC' type='text' size='50'
+							print("<input name='MC[]' type='text' size='51'
 							       placeholder='Enter In Question'>");
 							
-							print("<input name='B' id='Options' size='40'
-							       placeholder='Enter In Option A'>");
 							
+							print("<br/>" . "<input onclick='Change(this)' name='MC[]' id='Button_Style' unselectable='on' onselectstart='return false;' onmousedown='return false;' value='Incorrect' size='4'>");
+							
+							print("<input name='MC[]' id='Options' size='40'
+							       placeholder='Enter In Option A'>");
+								   
 							print("<br/>" . "<button onclick='More_Lines(); return false;'>
 							       Add An Option</button>");
 
@@ -317,10 +388,10 @@
 						elseif(isset($_POST["3"]))
 						{
 								
-							print("<input name='QA' type='text' size='50'
+							print("<input name='QA[]' type='text' size='50'
 							       placeholder='Enter In Question'>");
 								
-							print("<input name='B' style='margin: 10px 0px 0px 0px'
+							print("<input name='QA[]' style='margin: 10px 0px 0px 0px'
 							       type='text' size='50' placeholder='Enter In Answer'>");
 
 						}
