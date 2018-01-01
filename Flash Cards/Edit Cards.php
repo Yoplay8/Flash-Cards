@@ -69,7 +69,6 @@
 				{
 					
 					alert("Please Make Sure All Fields Are Filled In");
-
 					
 					return false;
 					
@@ -226,7 +225,7 @@
 				
 				New_Line.setAttribute("size", "4");
 				New_Line.setAttribute("onclick", "Change(this)");
-				New_Line.setAttribute("name", Ele.name);
+				New_Line.setAttribute("name", Ele.value);
 				New_Line.setAttribute("value", "Incorrect");
 				New_Line.setAttribute("id", "Button_Style");
 				New_Line.setAttribute("unselectable", "on");
@@ -250,7 +249,7 @@
 			    Letter = String.fromCharCode(65 + Letter);
 			   
 			    New_Line.setAttribute('placeholder', 'Enter In Option ' + Letter);
-			    New_Line.setAttribute('name', Ele.name);
+			    New_Line.setAttribute('name', Ele.value);
 
 				if(Num_Of_Children >= 10)
 					Num_Of_Children--;
@@ -277,7 +276,7 @@
 				   Remove_Btn.setAttribute("onclick", "Less_Lines(this); return false;");
 				   Remove_Btn.setAttribute("style", "margin-left: 10px");
 				   Remove_Btn.innerHTML = "Remove An Option";
-				   Ele.setAttribute('value', ' ');
+				   Remove_Btn.setAttribute('value', ' ');
 				   
 				   Parent.appendChild(Remove_Btn);
 			   
@@ -529,6 +528,7 @@
 												   Ele.setAttribute('value', '$Sections[$Count]');
 												   Ele.setAttribute('size', '4');
 												   Ele.setAttribute('name', Parent_Size + '[]');
+												   Ele.setAttribute('id', 'Button_Style');
 												   
 												   if('$Sections[$Count]' == 'Incorrect')
 													   Ele.setAttribute('style', 'cursor: pointer; text-align: center; background-color: red;');
@@ -562,7 +562,7 @@
 										
 											   Ele.setAttribute('onclick', 'More_Lines(this); return false;');
 											   Ele.innerHTML = 'Add An Option';
-											   Ele.setAttribute('value', ' ');
+											   Ele.setAttribute('value', Parent_Size + '[]');
 											   
 											   Cell.appendChild(Ele);
 
@@ -599,6 +599,21 @@
 									
 										print("var Row = document.createElement('tr');
 													   
+											   Row.appendChild(Cell);
+											   
+											   Cell = document.createElement('td');
+											   
+											   
+											   Ele = document.createElement('input');
+											   Ele.setAttribute('name', Parent_Size + '[]');
+											   Ele.setAttribute('type', 'submit');
+											   Ele.setAttribute('onclick', 'Delete(this)');
+											   Ele.setAttribute('value', 'Delete');
+											   Ele.setAttribute('id', 'Make_Room');
+											   
+											   
+											   Cell.appendChild(Ele);
+											   
 											   Row.appendChild(Cell);
 											   
 											   Parent.appendChild(Row);

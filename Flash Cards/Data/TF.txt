@@ -1,11 +1,5 @@
-False:::sssssssssss:::
-False:::sddsfds:::
-True:::sssss:::
-True:::sssssssssss:::
-True:::sssssssssss:::
-True:::sssssssssss:::
-True:::sssssssssss:::
-True:::sssssssssss:::
-True:::sssssssssss:::
-True:::ssss:::
-True:::sssssssssss:::
+True:::Tyler Is Awesome:::
+True:::Tyler Is Awesome:::
+True:::Tyler Is Awesome:::
+True:::Tyler Is Awesome:::
+True:::Tyler Is Awesome:::
