@@ -42,6 +42,12 @@
 	
 	</style>
 	
+	<?php
+	
+		$Hold_Questions = array();
+
+	?>
+	
 	<script>
 	
 		function Change(Ele, Answer = null)
@@ -55,7 +61,7 @@
 			
 		}
 		
-		function Check_Answer(Answer, )
+		function Check_Answer(Answer)
 		{
 			
 			var Picked = document.getElementsByName("Clicked[]");
@@ -102,6 +108,9 @@
 		function New_Question()
 		{
 			
+			var Hold_Questionss = <?php echo json_encode($Hold_Questions); ?>;
+			
+			document.write(Hold_Questionss.length);
 			
 			
 		}
@@ -140,8 +149,8 @@
 			<div id="Parent" class="Center_Of_Page">
 			
 				<?php
-				
-					$Hold_Questions = array();
+
+					global $Hold_Questions;
 					$Flag = true;
 					
 					// Hold the file name and path.
