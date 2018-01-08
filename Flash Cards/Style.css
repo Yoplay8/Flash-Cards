@@ -1,3 +1,10 @@
+/*****************************************
+*
+* Used for consistant look on all pages.
+*
+* Used In: Add Cards, Edit Cards, and Test
+*
+*****************************************/
 body
 {
 
@@ -8,6 +15,13 @@ body
 
 }
 
+/*****************************************
+*
+* Puts elements in the center of screen.
+*
+* Used In: Add Cards, Edit Cards, and Test
+*
+*****************************************/
 .Center_Of_Page
 {
 	
@@ -18,7 +32,14 @@ body
 	
 }
 
-input#Link
+/***************************************
+*
+* Make inputs look like navigation tabs.
+*
+* Used In: Add Cards and Edit Cards
+* 
+***************************************/
+input.Link
 {
 	
 	background: none;
@@ -26,4 +47,49 @@ input#Link
 	text-decoration: underline;
 	font-size: 20px;
 
+}
+
+/*******************************************************************
+*
+* Make multiple choice inputs look the same as hovering over a link.
+*
+* Use In: Add Cards, Edit Cards
+*
+*******************************************************************/
+.Button_Style
+{
+
+	cursor: pointer;
+	text-align: center;
+	background-color: red;
+	
+}
+
+/*******************************************
+*
+* Prevent elements from touching each other.
+*
+* Used In: Edit Cards and Test
+*
+*******************************************/
+.Make_Room
+{
+	
+	margin: 10px 0px 10px 10px;
+	padding-left: 1px;
+	
+}
+
+/**********************************
+*
+* Not Sure ATM
+*
+* Used In: Add Cards and Edit Cards
+*
+**********************************/
+input.Options
+{
+	
+	margin: 15px -5px 10px 10px;
+	
 }

@@ -1,7 +1,7 @@
 <html>
 	<head>
 	
-		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" type="text/css" href="Style.css">
 	
 	</head>
 	
@@ -15,29 +15,13 @@
 	
 	<style>
 
-		#Link:hover
+		.Link:hover
 		{
 			
 			background-color: orange;
 			
 		}
-		
-		input#Options
-		{
-			
-			margin: 15px -5px 10px 10px;
-			
-		}
-		
-		#Button_Style
-		{
 
-			cursor: pointer;
-			text-align: center;
-			background-color: red;
-			
-		}
-	
 	</style>
 	
 	
@@ -88,13 +72,6 @@
 			// holders for the new lines.
 			var Parent = document.getElementById('Parent');
 			var Num_Of_Children = Parent.childNodes.length;
-		   
-		   
-		   // Once the remove button is created we need to subtract one to keep the custom
-		   // messages consistent and to make sure the new lines are inserted in the correct
-		   // spot.
-		    
-		   
 			
 			// Holds the letter for the custom placeholder.
 			var Letter = (((Num_Of_Children / 3) - 2) + 1);
@@ -104,12 +81,12 @@
 			// Limit the multiple choice to 9 options.
 			if(Letter <= 10)
 			{
-				
-				
-				
+
+				// Holds the new element to be added.
 				var New_Line = document.createElement("br");
 				
-				if(Num_Of_Children >= 10)
+				
+				if(Num_Of_Children >= 10)//////////////////////////////////////////////////////////////////////////////////
 					Num_Of_Children--;
 				
 				Parent.insertBefore(New_Line, Parent.childNodes[(Num_Of_Children - 2)]);
@@ -124,7 +101,7 @@
 				New_Line.setAttribute("onclick", "Change(this)");
 				New_Line.setAttribute("name", "MC[]");
 				New_Line.setAttribute("value", "Incorrect");
-				New_Line.setAttribute("id", "Button_Style");
+				New_Line.setAttribute("class", "Button_Style");
 				New_Line.setAttribute("unselectable", "on");
 				New_Line.setAttribute("onselectstart", "return false;");
 				New_Line.setAttribute("onmousedown", "return false;");
@@ -140,7 +117,7 @@
 				New_Line = document.createElement('input');
 		   
 		   
-				New_Line.setAttribute('id', 'Options');
+				New_Line.setAttribute('class', 'Options');
 				New_Line.setAttribute('size', 40);
 			   
 			    Letter = String.fromCharCode(65 + Letter);
@@ -344,11 +321,11 @@
 	<body style="background-color: #0066ff">
 		<form action="" onsubmit="return Validate_Form();" name="Add" method="post">
 			<div style="margin: 30px 0px 0px 0px" align="center">	
-				<input type="submit" id="Link" name="1" value="True/ False">
+				<input type="submit" class="Link" name="1" value="True/ False">
 				
-				<input type="submit" id="Link" name="2" value="Multiple Choice">
+				<input type="submit" class="Link" name="2" value="Multiple Choice">
 				
-				<input type="submit" id="Link" name="3" value="QnA">
+				<input type="submit" class="Link" name="3" value="QnA">
 				
 				<?php
 				
@@ -376,9 +353,9 @@
 							       placeholder='Enter In Question'>");
 							
 							
-							print("<br/>" . "<input onclick='Change(this)' name='MC[]' id='Button_Style' unselectable='on' onselectstart='return false;' onmousedown='return false;' value='Incorrect' size='4'>");
+							print("<br/>" . "<input onclick='Change(this)' name='MC[]' class='Button_Style' unselectable='on' onselectstart='return false;' onmousedown='return false;' value='Incorrect' size='4'>");
 							
-							print("<input name='MC[]' id='Options' size='40'
+							print("<input name='MC[]' class='Options' size='40'
 							       placeholder='Enter In Option A'>");
 								   
 							print("<br/>" . "<button onclick='More_Lines(); return false;'>

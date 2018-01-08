@@ -43,16 +43,6 @@
 			border: 10px solid black;
 
 		}
-		
-		#Button_Style
-		{
-
-			cursor: pointer;
-			text-align: center;
-			background-color: red;
-			
-		}
-
 	
 	</style>
 	
