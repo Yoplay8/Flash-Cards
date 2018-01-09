@@ -86,16 +86,15 @@
 				var New_Line = document.createElement("br");
 				
 				
-				if(Num_Of_Children >= 10)//////////////////////////////////////////////////////////////////////////////////
+				// Position the next element in the correct spot.
+				if(Num_Of_Children >= 10)
 					Num_Of_Children--;
 				
 				Parent.insertBefore(New_Line, Parent.childNodes[(Num_Of_Children - 2)]);
 				
-				
-				
+
 				Num_Of_Children = Parent.childNodes.length;
-				
-				var New_Line = document.createElement("input");
+				New_Line = document.createElement("input");
 				
 				New_Line.setAttribute("size", "4");
 				New_Line.setAttribute("onclick", "Change(this)");
@@ -106,17 +105,15 @@
 				New_Line.setAttribute("onselectstart", "return false;");
 				New_Line.setAttribute("onmousedown", "return false;");
 				
+				// Position the next element in the correct spot.
 				if(Num_Of_Children >= 10)
 					Num_Of_Children--;
 				
 				Parent.insertBefore(New_Line, Parent.childNodes[(Num_Of_Children - 2)]);
 				
 				Num_Of_Children = Parent.childNodes.length;
-				
-				// Holds the new line to be added.
 				New_Line = document.createElement('input');
-		   
-		   
+
 				New_Line.setAttribute('class', 'Options');
 				New_Line.setAttribute('size', 40);
 			   
@@ -125,6 +122,7 @@
 			    New_Line.setAttribute('placeholder', 'Enter In Option ' + Letter);
 			    New_Line.setAttribute('name', "MC[]");
 
+				// Position the next element in the correct spot.
 				if(Num_Of_Children >= 10)
 					Num_Of_Children--;
 				
@@ -227,10 +225,15 @@
 			
 		}
 		
+		///////////////////////////////////////////////////////////////////////
+		//
+		// Change - Will make the multiple choice input fields change on click.
+		//
+		///////////////////////////////////////////////////////////////////////
 		function Change(Ele)
 		{
 			
-			
+			// Change element to either Incorrect or Correct depending on current state.
 			if(Ele.getAttribute("value") == "Incorrect")
 			{
 				
@@ -268,6 +271,7 @@
 			if(!file_exists($Folder_Name))
 				mkdir($Folder_Name);
 			
+			// Get the correct file name based on form post.
 			if(isset($_POST["TF"]))
 				$File_Name = "/TF.txt";
 			elseif(isset($_POST["MC"]))
@@ -275,12 +279,16 @@
 			elseif(isset($_POST["QA"]))
 				$File_Name = "/QA.txt";
 				
-			
+				
+			// Write to file.
 			$W_File = fopen($Folder_Name . $File_Name, "a");
 			
+			
+			// Only add a new line in file if file already has data.
 			if(filesize($Folder_Name . $File_Name) > 0)
 				fwrite($W_File, "\r\n");
 			
+			/////////////////////////////////////////////////////////////////////////////////////////////
 			foreach($_POST as $Question)
 			{
 
