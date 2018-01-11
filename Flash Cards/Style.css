@@ -5,14 +5,54 @@
 * Used In: Add Cards, Edit Cards, and Test
 *
 *****************************************/
-body
+.Border_Style
 {
 
-	border-style: double;
+	border-left: double;
+	border-right: double;
 	border-color: black;
-	border-radius: 200px;
+	border-radius: 350px;
 	border-width: 50px;
 
+}
+
+/***************************************************************************
+*
+* Used for the menu which also prevents the elements from being highlighted.
+*
+***************************************************************************/
+.Menu_Style
+{
+
+	border-top: solid;
+	border-bottom: solid;
+	border-color: black;
+	border-radius: 150px;
+	border-width: 4px;
+	width: 10%;
+	cursor: pointer;
+	padding: 10px;
+	
+	-moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+
+}
+
+/********************************************************
+*
+* Used for the options in the menu to disguise the links.
+*
+********************************************************/
+.Menu_Options, .Menu_Options:visited
+{
+
+	margin-right: 13px;
+	color: black;
+	text-decoration: none;
+	
 }
 
 /*****************************************

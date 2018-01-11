@@ -15,11 +15,18 @@
 	
 	<style>
 
-		.Link:hover
+		.Link:hover, .Menu_Style:hover
 		{
 			
 			background-color: orange;
 			
+		}
+
+		.Menu_Options:hover
+		{
+
+			background-color: #0066ff;
+
 		}
 
 	</style>
@@ -253,6 +260,56 @@
 			
 		}
 		
+		//////////////////////////////////////////////////////////////////////
+		//
+		// Menu_Options - Will be the click event to help the user get around.
+		//
+		//////////////////////////////////////////////////////////////////////
+		function Menu_Options(Ele)
+		{
+			
+			// Depending on the current state change the menu options.
+			if(Ele.getAttribute("name") == "Closed")
+			{
+				
+				Ele.innerHTML = "";
+				
+				var New_Line = document.createElement("a");
+				
+				New_Line.innerHTML = "Edit Cards";
+				New_Line.setAttribute("href", "http://localhost:8080/Flash%20Cards/edit%20Cards.php");
+				New_Line.setAttribute("class", "Menu_Options");
+				
+				Ele.appendChild(New_Line);
+				
+				
+				New_Line = document.createElement("a");
+				
+				
+				New_Line.innerHTML = "Test";
+				New_Line.setAttribute("href", "http://localhost:8080/Flash%20Cards/test.php");
+				New_Line.setAttribute("class", "Menu_Options");
+				
+				
+				Ele.appendChild(New_Line);
+				
+				Ele.setAttribute("name", "Opened");
+				Ele.setAttribute("style", "width: 12%");
+				
+			}
+			else
+			{
+				
+				Ele.innerHTML = "Menu";
+				
+				Ele.setAttribute("name", "Closed");
+				Ele.setAttribute("style", "width: 10%");
+				
+				
+			}
+			
+		}
+		
 	</script>
 	
 	
@@ -288,13 +345,15 @@
 			if(filesize($Folder_Name . $File_Name) > 0)
 				fwrite($W_File, "\r\n");
 			
-			/////////////////////////////////////////////////////////////////////////////////////////////
+			// Loop through all the input from form.
 			foreach($_POST as $Question)
 			{
 
+				// Exclude the save button.
 				if($Question != "Save")
 				{
 					
+					// Add in the current line to the file.
 					foreach($Question as $Val)
 							fwrite($W_File, ($Val . ":::"));
 					
@@ -326,7 +385,15 @@
 		}
 	?>
 	
-	<body style="background-color: #0066ff">
+	<center>
+		<div class="Menu_Style" name="Closed" onclick="Menu_Options(this)">
+	
+			Menu
+	
+		</div>
+	</center>
+	
+	<body class="Border_Style" style="background-color: #0066ff;">
 		<form action="" onsubmit="return Validate_Form();" name="Add" method="post">
 			<div style="margin: 30px 0px 0px 0px" align="center">	
 				<input type="submit" class="Link" name="1" value="True/ False">
@@ -390,6 +457,7 @@
 			
 			<?php
 
+				// Add the save button to the page.
 				print('<div class="Center_Of_Page" style="position: fixed; top: 90%;
 				       transform: translateX(-50%) translateY(-90%);">');
 			

@@ -1,7 +1,7 @@
 <html>
 	<head>
 	
-		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" type="text/css" href="Style.css">
 	
 	</head>
 	
@@ -14,15 +14,27 @@
 	
 	<style>
 	
-		#Make_Room
+		.Menu_Style:hover
 		{
 			
-			margin: 10px 0px 10px 10px;
-			padding-left: 1px;
+			background-color: #F6EA62;
 			
 		}
 		
-		#Button_Style
+		.Menu_Options:hover
+		{
+
+			background-color: purple;
+
+		}
+		
+		/***************************************************************************************
+		*
+		* I DONT WANT TO DEAL WITH THIS RIGHT NOW. This is differnt that whats in the style file
+		* but I dont want to bother fixing this right now. Ill come back to this later.
+		*
+		***************************************************************************************/
+		.Button_Style
 		{
 
 			cursor: pointer;
@@ -33,7 +45,7 @@
 			
 		}
 		
-		td#Left
+		td.Left
 		{
 		
 			text-align: left;
@@ -44,26 +56,39 @@
 	
 	<?php
 	
+		// Used as a global variable to hold all the questions.
 		$Hold_Questions = array();
 
 	?>
 	
 	<script>
 	
+		/////////////////////////////////////////////////////////////////////////////////
+		//
+		// Change - Used for the true and false part so we know which button was clicked.
+		//
+		/////////////////////////////////////////////////////////////////////////////////
 		function Change(Ele, Answer = null)
 		{
 
 			Ele.setAttribute('name', 'Clicked[]');
 			Ele.setAttribute('value', Ele.innerHTML);
 			
+			// This was in case we ran into the multiple choice part. Not sure ill be using this way still.
 			if(Ele.tagName == 'BUTTON')
 				Check_Answer([Answer]);
 			
 		}
 		
+		//////////////////////////////////////////////////////////////////////
+		//
+		// Check_Answer - Is what checks to see if the users input is correct.
+		//
+		//////////////////////////////////////////////////////////////////////
 		function Check_Answer(Answer)
 		{
 			
+			// Find all the multiple choice answers.
 			var Picked = document.getElementsByName("Clicked[]");
 			var Flag = true;
 			
@@ -105,12 +130,31 @@
 
 		}
 		
+		function Display_TF(var Sections)
+		{
+			
+			document.write("adasdsdasdasdas");
+			
+		}
+		
+		function Display_MC()
+		{
+			
+			
+		}
+		
+		function Display_QA()
+		{
+			
+			
+		}
+		
 		function New_Question()
 		{
 			
 			var Hold_Questionss = <?php echo json_encode($Hold_Questions); ?>;
 			
-			document.write(Hold_Questionss.length);
+			
 			
 			
 		}
@@ -137,10 +181,68 @@
 			}
 			
 		}
+		
+		//////////////////////////////////////////////////////////////////////
+		//
+		// Menu_Options - Will be the click event to help the user get around.
+		//
+		//////////////////////////////////////////////////////////////////////
+		function Menu_Options(Ele)
+		{
+			
+			// Depending on the current state change the menu options.
+			if(Ele.getAttribute("name") == "Closed")
+			{
+				
+				Ele.innerHTML = "";
+				
+				var New_Line = document.createElement("a");
+				
+				New_Line.innerHTML = "Add Cards";
+				New_Line.setAttribute("href", "http://localhost:8080/Flash%20Cards/Add%20Cards.php");
+				New_Line.setAttribute("class", "Menu_Options");
+				
+				Ele.appendChild(New_Line);
+				
+				
+				New_Line = document.createElement("a");
+				
+				
+				New_Line.innerHTML = "Edit Cards";
+				New_Line.setAttribute("href", "http://localhost:8080/Flash%20Cards/edit%20Cards.php");
+				New_Line.setAttribute("class", "Menu_Options");
+				
+				
+				Ele.appendChild(New_Line);
+				
+				Ele.setAttribute("name", "Opened");
+				Ele.setAttribute("style", "width: 16%");
+				
+			}
+			else
+			{
+				
+				Ele.innerHTML = "Menu";
+				
+				Ele.setAttribute("name", "Closed");
+				Ele.setAttribute("style", "width: 10%");
+				
+				
+			}
+			
+		}	
 	
 	</script>
 	
-	<body style="background-color: purple;">
+	<center>
+		<div class="Menu_Style" name="Closed" onclick="Menu_Options(this)">
+	
+			Menu
+	
+		</div>
+	</center>
+	
+	<body class="Border_Style" style="background-color: purple;">
 	
 		<div style="margin: 30px 0px 0px 0px" align="center">
 		
@@ -238,37 +340,8 @@
 								
 								print("<script>");
 								
-									print("var Parent = document.getElementById('Parent');
-									
-										   var Ele = document.createElement('h2');
-									
-										   Ele.innerHTML = '$Sections[2]';
-										   
-										   Parent.appendChild(Ele);
-										   
-										   Ele = document.createElement('br');
-										   
-										   Parent.appendChild(Ele);
-										   
-										   Ele = document.createElement('button');
-										   
-										   Ele.setAttribute('onclick', 'Change(this, \'$Sections[1]\'); return false;');
-										   Ele.innerHTML = 'True';
-										   
-										   Parent.appendChild(Ele);
-										   
-										   Ele = document.createElement('button');
-										   
-										   Ele.setAttribute('onclick', 'Change(this, \'$Sections[1]\'); return false;');
-										   Ele.innerHTML = 'False';
-										   Ele.setAttribute('id', 'Make_Room');
-										   
-										   
-										   Parent.appendChild(Ele);
-									
-									
-									");
-
+									print("alert(123);Display_TF('&$Sections');");
+								
 								print("</script>");
 								
 							}
