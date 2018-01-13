@@ -27,84 +27,316 @@
 			background-color: purple;
 
 		}
-		
-		/***************************************************************************************
-		*
-		* I DONT WANT TO DEAL WITH THIS RIGHT NOW. This is differnt that whats in the style file
-		* but I dont want to bother fixing this right now. Ill come back to this later.
-		*
-		***************************************************************************************/
-		.Button_Style
-		{
-
-			cursor: pointer;
-			text-align: center;
-			background-color: red;
-			margin: 10px 0px 10px 10px;
-			padding-left: 1px;
-			
-		}
-		
-		td.Left
-		{
-		
-			text-align: left;
-			
-		}
 	
 	</style>
-	
+
 	<?php
 	
-		// Used as a global variable to hold all the questions.
+		// Hold the file name and path.
+		$Folder_Name = "Data";
 		$Hold_Questions = array();
 
+		
+		// Create folder if one doesn't exsist.
+		if(!file_exists($Folder_Name))
+			mkdir($Folder_Name);
+		else
+		{
+
+			$File_Name = "/TF.txt";
+
+			
+			if(file_exists($Folder_Name . $File_Name))
+			{
+				
+				$R_File = fopen($Folder_Name . $File_Name, "r");
+				
+				while(!feof($R_File))
+				{
+					
+					$Line = fgets($R_File);
+					
+					if($Line != "")
+						array_push($Hold_Questions, ("TF:::" . $Line));
+					
+				}
+			
+			}
+			
+			$File_Name = "/MC.txt";
+			
+			
+			if(file_exists($Folder_Name . $File_Name))
+			{
+				
+				// Read file.
+				$R_File = fopen($Folder_Name . $File_Name, "r");
+				
+				while(!feof($R_File))
+				{
+					
+					$Line = fgets($R_File);
+					
+					if($Line != "")
+						array_push($Hold_Questions, ("MC:::" . $Line));
+					
+				}
+			
+			}
+			
+			$File_Name = "/QA.txt";
+			
+			
+			if(file_exists($Folder_Name . $File_Name))
+			{
+				
+				// Read file.
+				$R_File = fopen($Folder_Name . $File_Name, "r");
+				
+				while(!feof($R_File))
+				{
+					
+					$Line = fgets($R_File);
+					
+					if($Line != "")
+						array_push($Hold_Questions, ("QA:::" . $Line));
+					
+				}
+			
+			}
+		
+		}
+		
 	?>
 	
 	<script>
-	
-		/////////////////////////////////////////////////////////////////////////////////
-		//
-		// Change - Used for the true and false part so we know which button was clicked.
-		//
-		/////////////////////////////////////////////////////////////////////////////////
-		function Change(Ele, Answer = null)
-		{
 
-			Ele.setAttribute('name', 'Clicked[]');
-			Ele.setAttribute('value', Ele.innerHTML);
+		function Display_Questions(Hold_Questions = null)
+		{
+		
+			if(Hold_Questions == null)
+				var Hold_Questions = <?php echo json_encode($Hold_Questions); ?>;
 			
-			// This was in case we ran into the multiple choice part. Not sure ill be using this way still.
-			if(Ele.tagName == 'BUTTON')
-				Check_Answer([Answer]);
+			if(Hold_Questions.length)
+			{
+				
+				var Rand_Num = Math.floor(Math.random() * (Hold_Questions.length - 1));
+				//alert(Hold_Questions[Rand_Num]);///////////////////////////////////////////////////////////////////////
+				var Sections = Hold_Questions[Rand_Num].split(":::");
+				
+				Hold_Questions.splice(Rand_Num, 1);
+				
+				if(Sections[0] == "TF")
+					Display_TF(Sections, Hold_Questions);
+				else if(Sections[0] == "MC")
+					Display_MC(Sections, Hold_Questions);
+				else if(Sections[0] == "QA")
+					Display_QA(Sections, Hold_Questions);
+				
+			}
+			else
+			{
+				
+				var Parent = document.getElementById("Parent");
+				
+				Parent.innerHTML = "";
+				
+				var New_Line = document.createElement("h1");
+				
+				New_Line.innerHTML = "All Questions Answered";
+				
+				Parent.appendChild(New_Line);
+				
+			}
 			
 		}
 		
-		//////////////////////////////////////////////////////////////////////
-		//
-		// Check_Answer - Is what checks to see if the users input is correct.
-		//
-		//////////////////////////////////////////////////////////////////////
-		function Check_Answer(Answer)
+		function Display_TF(Sections, Questions)
 		{
 			
-			// Find all the multiple choice answers.
-			var Picked = document.getElementsByName("Clicked[]");
+			var Parent = document.getElementById("Parent");
+			
+			Parent.innerHTML = null;
+			
+			var New_Line = document.createElement("h1");
+			
+			New_Line.innerHTML = Sections[2];
+			
+			Parent.appendChild(New_Line);
+			
+			
+			New_Line = document.createElement("button");
+			
+			New_Line.innerHTML = "True";
+			New_Line.setAttribute("class", "Make_Room");
+			New_Line.addEventListener('click', function(){ Check_Answer(Sections[1], Questions, this.innerHTML); });
+
+			Parent.appendChild(New_Line);
+			
+			
+			New_Line = document.createElement("button");
+			
+			var Test = "123";
+			
+			New_Line.innerHTML = "False";
+			New_Line.setAttribute("class", "Make_Room");
+			New_Line.addEventListener('click', function(){ Check_Answer([Sections[1]], Questions, [this.innerHTML]); });
+
+
+			Parent.appendChild(New_Line);
+			
+		}
+		
+		function Display_MC(Sections, Questions)
+		{
+			
+			var Answers = [];
+			var Table = document.createElement("table");
+			var Row = document.createElement("tr");
+			var Cell = document.createElement("td");
+			var Parent = document.getElementById("Parent");
+			
+			Parent.innerHTML = null;
+
+			//Table.setAttribute("class", "Vertical_Center");
+			
+			var New_Line = document.createElement("h1");
+			
+			New_Line.innerHTML = Sections[1];
+			
+			Cell.setAttribute("colspan", "2");
+			Cell.setAttribute("style", "text-align: center");
+			
+			
+			Cell.appendChild(New_Line);
+			Row.appendChild(Cell);
+			Table.appendChild(Row);
+			//alert(Sections.length);////////////////////////////////////////////////////////////////////////////////
+			for(var Count = 2; Count < (Sections.length - 1); Count += 2)
+			{
+
+				Answers.push(Sections[Count]);
+				
+				Row = document.createElement("tr");
+				
+				Cell = document.createElement("td");
+				New_Line = document.createElement("input");
+				
+				Cell.setAttribute("class", "Vertical_Center");
+				
+				New_Line.setAttribute("size", "4");
+				New_Line.setAttribute("onclick", "Change(this)");
+				New_Line.setAttribute("value", "Incorrect");
+				New_Line.setAttribute("style", "float: left");
+				New_Line.setAttribute("class", "Button_Style");
+				New_Line.setAttribute("unselectable", "on");
+				New_Line.setAttribute("onselectstart", "return false;");
+				New_Line.setAttribute("onmousedown", "return false;");
+				
+				Cell.appendChild(New_Line);
+
+				New_Line = document.createElement("div");
+				
+				New_Line.innerHTML = Sections[Count + 1];
+				New_Line.setAttribute("class", "Make_Room");
+				New_Line.setAttribute("style", "float: left");
+				
+				Cell.appendChild(New_Line);
+				Row.appendChild(Cell);
+				
+				Table.appendChild(Row)
+				
+			}
+			
+			var Users_Answers = document.getElementsByTagName("input");
+			
+			New_Line = document.createElement("button");
+			
+			New_Line.innerHTML = "Submit";
+			New_Line.addEventListener('click', function(){ Check_Answer(Answers, Questions, Users_Answers); });
+			New_Line.setAttribute("class", "Make_Room");
+			
+			Row = document.createElement("tr");
+			Cell = document.createElement("td");
+			
+			Cell.setAttribute("colspan", "2");
+			Cell.setAttribute("style", "text-align: center");
+			
+			Cell.appendChild(New_Line);
+			Row.appendChild(Cell);
+			Table.appendChild(Row);
+			
+			Parent.appendChild(Table);
+			
+			
+		}
+		
+		function Display_QA(Sections, Questions)
+		{
+			
+			var Parent = document.getElementById("Parent");
+			
+			Parent.innerHTML = null;
+			
+			var New_Line = document.createElement("h1");
+			
+			New_Line.innerHTML = Sections[1];
+			
+			Parent.appendChild(New_Line);
+			
+			New_Line = document.createElement("input");
+			
+			New_Line.setAttribute("size", "50");
+			
+			Parent.appendChild(New_Line);
+			
+			var New_Line2 = document.createElement("button");
+			
+			New_Line2.innerHTML = "Submit";
+			New_Line2.addEventListener('click', function(){ Check_Answer([Sections[2]], Questions, [New_Line.value]); });
+			New_Line2.setAttribute("class", "Make_Room");
+
+			New_Line3 = document.createElement("br");
+			
+			Parent.appendChild(New_Line3);
+			
+			Parent.appendChild(New_Line2);
+
+		}
+
+		function Check_Answer(Answer, Questions, Users_Answer)
+		{
+			
 			var Flag = true;
 			
 			
-			for(var Count = 0; Count < Picked.length; Count++)
+			if(Users_Answer[0].nodeName == "INPUT")
 			{
 				
-				if(Picked[Count].value != Answer[Count])
+				var Temp = [];
+				
+				for(var Count = 0; Count < Users_Answer.length; Count++)
 				{
 					
-					alert("Wrong Answer");
-				
-					Flag = false;
+					Temp.push(Users_Answer[Count].value);
 					
-					if(Picked[Count].tagName == "BUTTON")
-						Picked[Count].removeAttribute("name");
+				}
+			
+				Users_Answer = Temp.slice();
+				
+			}
+
+			
+			
+			for(var Count = 0; Count < Answer.length; Count++)
+			{
+				
+				if(Users_Answer[Count] == Answer[Count])
+					Flag = true;
+				else
+				{
+					
+					Flag = false;
 					
 					break;
 					
@@ -115,70 +347,13 @@
 			if(Flag)
 			{
 				
-				var Parent = document.getElementById("Parent");
+				alert("Correct");
 				
-				for(var Count = 0; Count < Parent.childNodes.length; Count)
-				{
-					
-					Parent.childNodes[Count].remove();
-					
-				}
-				
-				New_Question();
-				
-			}
-
-		}
-		
-		function Display_TF(var Sections)
-		{
-			
-			document.write("adasdsdasdasdas");
-			
-		}
-		
-		function Display_MC()
-		{
-			
-			
-		}
-		
-		function Display_QA()
-		{
-			
-			
-		}
-		
-		function New_Question()
-		{
-			
-			var Hold_Questionss = <?php echo json_encode($Hold_Questions); ?>;
-			
-			
-			
-			
-		}
-		
-		function Changee(Ele)
-		{
-			
-			
-			if(Ele.getAttribute("value") == "Incorrect")
-			{
-				
-				Ele.setAttribute("value", "Correct");
-			
-				Ele.setAttribute("style", "background-color: green;");
+				Display_Questions(Questions);
 				
 			}
 			else
-			{
-				
-				Ele.setAttribute("value", "Incorrect");
-			
-				Ele.setAttribute("style", "background-color: red;");
-				
-			}
+				alert("Incorrect");
 			
 		}
 		
@@ -199,7 +374,7 @@
 				var New_Line = document.createElement("a");
 				
 				New_Line.innerHTML = "Add Cards";
-				New_Line.setAttribute("href", "http://localhost:8080/Flash%20Cards/Add%20Cards.php");
+				New_Line.setAttribute("href", "http://localhost/Flash%20Cards/Add%20Cards.php");
 				New_Line.setAttribute("class", "Menu_Options");
 				
 				Ele.appendChild(New_Line);
@@ -209,7 +384,7 @@
 				
 				
 				New_Line.innerHTML = "Edit Cards";
-				New_Line.setAttribute("href", "http://localhost:8080/Flash%20Cards/edit%20Cards.php");
+				New_Line.setAttribute("href", "http://localhost/Flash%20Cards/edit%20Cards.php");
 				New_Line.setAttribute("class", "Menu_Options");
 				
 				
@@ -230,10 +405,38 @@
 				
 			}
 			
-		}	
+		}
+		
+		///////////////////////////////////////////////////////////////////////
+		//
+		// Change - Will make the multiple choice input fields change on click.
+		//
+		///////////////////////////////////////////////////////////////////////
+		function Change(Ele)
+		{
+			
+			// Change element to either Incorrect or Correct depending on current state.
+			if(Ele.getAttribute("value") == "Incorrect")
+			{
+				
+				Ele.setAttribute("value", "Correct");
+			
+				Ele.setAttribute("style", "background-color: green;");
+				
+			}
+			else
+			{
+				
+				Ele.setAttribute("value", "Incorrect");
+			
+				Ele.setAttribute("style", "background-color: red;");
+				
+			}
+			
+		}
 	
 	</script>
-	
+
 	<center>
 		<div class="Menu_Style" name="Closed" onclick="Menu_Options(this)">
 	
@@ -249,245 +452,26 @@
 			<h1>Level X</h1>
 			
 			<div id="Parent" class="Center_Of_Page">
-			
+
 				<?php
 
-					global $Hold_Questions;
-					$Flag = true;
-					
-					// Hold the file name and path.
-					$Folder_Name = "Data";
-
-					
-					// Create folder if one doesn't exsist.
-					if(!file_exists($Folder_Name))
-						mkdir($Folder_Name);
-					else
+					if(sizeof($Hold_Questions) != 0)
 					{
 
-						$File_Name = "/TF.txt";
-								
-						if(file_exists($Folder_Name . $File_Name))
-						{
+						print("<script>");
 						
-							$Flag = false;
-							$R_File = fopen($Folder_Name . $File_Name, "r");
-							
-							while(!feof($R_File))
-							{
-								
-								$Line = fgets($R_File);
-								
-								if($Line != "")
-									array_push($Hold_Questions, "TF:::" . $Line);
-								
-							}
-							
-						}
+							print("Display_Questions();");
 						
-						$File_Name = "/MC.txt";
-								
-						if(file_exists($Folder_Name . $File_Name))
-						{
-						
-							$Flag = false;
-							$R_File = fopen($Folder_Name . $File_Name, "r");
-							
-							while(!feof($R_File))
-							{
-								
-								$Line = fgets($R_File);
-								
-								if($Line != "")
-									array_push($Hold_Questions, "MC:::" . $Line);
-								
-							}
-							
-						}
-						
-						$File_Name = "/QA.txt";
-								
-						if(file_exists($Folder_Name . $File_Name))
-						{
-						
-							$Flag = false;
-							$R_File = fopen($Folder_Name . $File_Name, "r");
-							
-							while(!feof($R_File))
-							{
-								
-								$Line = fgets($R_File);
-								
-								if($Line != "")
-									array_push($Hold_Questions, "QA:::" . $Line);
-								
-							}
-							
-						}
-						
-						if(($Flag) or (sizeof($Hold_Questions) == 0))
-							print("<h2>" . "No Items To Display" . "</h2>");
-						else
-						{
-
-							$Index = mt_rand(0, (sizeof($Hold_Questions) - 1));
-							
-							$Sections = explode(":::", $Hold_Questions[$Index]);
-
-							
-							if($Sections[0] == "TF")
-							{
-								
-								print("<script>");
-								
-									print("alert(123);Display_TF('&$Sections');");
-								
-								print("</script>");
-								
-							}
-							elseif($Sections[0] == "MC")
-							{
-								
-								print("<script>");
-								
-									print("var Parent = document.getElementById('Parent');
-										   var Row = document.createElement('tr');
-										   var Cell = document.createElement('td');
-									
-										   Cell.setAttribute('colspan', '2');
-										   
-										   Parent.type = 'table';
-									
-										   var Ele = document.createElement('h2');
-									
-										   Ele.innerHTML = '$Sections[1]';
-										   
-										   Cell.appendChild(Ele);
-										   Row.appendChild(Cell);
-										   Parent.appendChild(Row);
-										   
-										");
-										   
-									print("</script>");
-										
-
-									print("<script>");
-									
-										print("var Answers = []");
-									
-									print("</script>");
-									
-									for($Count1 = 2, $Count2 = 3; $Count1 < sizeof($Sections); $Count1 += 2, $Count2 = ($Count1 + 1))
-									{
-										
-										print("<script>");
-										
-											print("Answers.push('$Sections[$Count1]');
-											
-												   Cell = document.createElement('td');
-											       Row = document.createElement('tr');
-												
-												   Ele = document.createElement('input');
-												
-												   Ele.setAttribute('onclick', 'Changee(this)');
-												   Ele.setAttribute('name', 'Clicked[]');
-												   Ele.setAttribute('unselectable', 'on');
-												   Ele.setAttribute('onselectstart', 'return false;');
-												   Ele.setAttribute('onmousedown', 'return false;');
-												   Ele.setAttribute('value', 'Incorrect');
-												   Ele.setAttribute('size', '4');
-												   Ele.setAttribute('id', 'Button_Style');
-												  
-												   Cell.appendChild(Ele);
-												   Row.appendChild(Cell);
-												   
-												   Cell = document.createElement('td');
-												   
-												   Cell.setAttribute('style', 'padding-left: 10px');
-												   Cell.setAttribute('width', '100%');
-												   Cell.setAttribute('id', 'Left');
-												   
-												   Ele = document.createTextNode('$Sections[$Count2]');
-												  
-												   Cell.appendChild(Ele);
-												   Row.appendChild(Cell);
-												  
-												   Parent.appendChild(Row);
-											
-												  ");
-										
-										print("</script>");
-										
-									}
-									
-									print("<script>");
-									
-										print("Ele = document.createElement('button');
-
-											   
-											   Ele.setAttribute('id', 'Make_Room');
-											   Ele.setAttribute('onclick', 'Check_Answer(Answers); return false;');
-												
-											   Ele.innerHTML = 'Submit';
-											   
-											   Parent.appendChild(Ele);
-											   
-											   ");
-									
-									print("</script>");
-								
-								
-							}
-							elseif($Sections[0] == "QA")
-							{
-								
-								print("<script>");
-								
-									print("var Parent = document.getElementById('Parent');
-									
-										   var Ele = document.createElement('h2');
-									
-										   Ele.innerHTML = '$Sections[1]';
-										   
-										   Parent.appendChild(Ele);
-										   
-										   Ele = document.createElement('br');
-										   
-										   Parent.appendChild(Ele);
-										   
-										   Ele = document.createElement('input');
-										   
-										   Ele.setAttribute('placeholder', 'Answer');
-										   Ele.setAttribute('size', '50');
-										   Ele.setAttribute('name', 'Clicked[]');
-										   
-										   Parent.appendChild(Ele);
-										   
-										   Ele = document.createElement('br');
-										   
-										   Parent.appendChild(Ele);
-										   
-										   Ele = document.createElement('button');
-										   
-										   Ele.setAttribute('id', 'Make_Room');
-										   Ele.setAttribute('onclick', 'Check_Answer([\'$Sections[2]\'])');
-											
-										   Ele.innerHTML = 'Submit';
-										   
-										   Parent.appendChild(Ele);
-
-									");
-
-								print("</script>");
-								
-							}
-							
-							array_splice($Hold_Questions, $Index, 1);
-						
-						}
+						print("</script>");
 						
 					}
-
+					else
+					{
+						
+						print("<h1>No Questions</h1>");
+						
+					}
+				
 				?>
 			
 			</div>

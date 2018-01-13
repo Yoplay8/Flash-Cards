@@ -277,7 +277,7 @@
 				var New_Line = document.createElement("a");
 				
 				New_Line.innerHTML = "Edit Cards";
-				New_Line.setAttribute("href", "http://localhost:8080/Flash%20Cards/edit%20Cards.php");
+				New_Line.setAttribute("href", "http://localhost/Flash%20Cards/edit%20Cards.php");
 				New_Line.setAttribute("class", "Menu_Options");
 				
 				Ele.appendChild(New_Line);
@@ -287,7 +287,7 @@
 				
 				
 				New_Line.innerHTML = "Test";
-				New_Line.setAttribute("href", "http://localhost:8080/Flash%20Cards/test.php");
+				New_Line.setAttribute("href", "http://localhost/Flash%20Cards/test.php");
 				New_Line.setAttribute("class", "Menu_Options");
 				
 				

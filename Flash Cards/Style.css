@@ -133,3 +133,12 @@ input.Options
 	margin: 15px -5px 10px 10px;
 	
 }
+
+.Vertical_Center
+{
+
+	display: flex;
+	justify-content: left;
+	align-items: center;
+	
+}
