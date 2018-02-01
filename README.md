@@ -8,7 +8,7 @@ As of now you are able to add in cards either true/ false, multiple choice, or q
 
 True/ false and question/ answer work in a typical fashion that you may expect. Multiple choice is unique that I put a lot a effort into making. You can have up to nine options a minium of one. Of course you cant really have a multiple choice with only one option so this will probably be fixed in the future. Whats unique about the the multiple choice is that you are able to have more than one correct answer but all correct answers have to be selected to get the question right.
 
-<b>To Be Continued<b>
+<b>To Be Continued</b>
 
 # Future Ideas
 I will create a way for the user to be able to make a set of cards for individual classes, subjects, or tests. They will also have a way to combine decks to be studied up against.
