@@ -27,3 +27,5 @@ Thinking about adding a leveling system so the user can see the progress they ma
 My current background will work for now but I really want to change the layout or something. I feel the background is bland. I'm not an artist but I can make a good judgment on what's looks better.
 
 I am using JavaScript at the moment but I could add in some JQuery for experience and simplicity for coding.
+
+Make sure to center all text. I was getting a little sloppy.
